@@ -186,7 +186,9 @@ def main():
         for (expected, reply), got in zip(cases, actual):
             assert got == expected, ("decoder mismatch", expected, reply, got)
 
-        protocol_cases = cases[:6] + cases[-min(args.sessions, 40):]
+        protocol_cases = cases[:6]
+        if args.sessions > 0:
+            protocol_cases += cases[-min(args.sessions, 40):]
         times = [interactive(classes, s, reply) for s, reply in protocol_cases]
         print(f"B OK: seed={args.seed}, {strings_count} exhaustive strings, "
               f"{exhaustive_count} exhaustive replies, {args.random} random cases, "
